@@ -174,7 +174,7 @@ class DRLEnsembleAgent:
         return sharpe
 
     def __init__(self,df,
-                train_period,val_test_period,
+#                 train_period,val_test_period,
                 rebalance_window, validation_window,
                 stock_dim,
                 hmax,                
@@ -188,10 +188,11 @@ class DRLEnsembleAgent:
                 print_verbosity):
 
         self.df=df
-        self.train_period = train_period
-        self.val_test_period = val_test_period
+#         self.train_period = train_period
+#         self.val_test_period = val_test_period
 
-        self.unique_trade_date = df[(df.date > val_test_period[0])&(df.date <= val_test_period[1])].date.unique()
+#         self.unique_trade_date = df[(df.date > val_test_period[0])&(df.date <= val_test_period[1])].date.unique()
+        self.unique_trade_date = df.date.unique()
         self.rebalance_window = rebalance_window
         self.validation_window = validation_window
 

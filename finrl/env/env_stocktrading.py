@@ -33,8 +33,9 @@ class StockTradingEnv(gym.Env):
                 initial=True,
                 previous_state=[],
                 model_name = '',
-                mode='',
-                iteration=''):
+                mode=''
+#                iteration=''
+                ):
         self.day = day
         self.df = df
         self.stock_dim = stock_dim
@@ -57,7 +58,7 @@ class StockTradingEnv(gym.Env):
         self.previous_state = previous_state
         self.model_name=model_name
         self.mode=mode 
-        self.iteration=iteration
+#        self.iteration=iteration
         # initalize state
         self.state = self._initiate_state()
         
@@ -198,11 +199,11 @@ class StockTradingEnv(gym.Env):
 
             if (self.model_name!='') and (self.mode!=''):
                 df_actions = self.save_action_memory()
-                df_actions.to_csv('results/actions_{}_{}_{}.csv'.format(self.mode,self.model_name, self.iteration))
-                df_total_value.to_csv('results/account_value_{}_{}_{}.csv'.format(self.mode,self.model_name, self.iteration),index=False)
-                df_rewards.to_csv('results/account_rewards_{}_{}_{}.csv'.format(self.mode,self.model_name, self.iteration),index=False)
+                df_actions.to_csv('results/actions_{}_{}_daily.csv'.format(self.mode,self.model_name))
+                df_total_value.to_csv('results/account_value_{}_{}_daily.csv'.format(self.mode,self.model_name),index=False)
+                df_rewards.to_csv('results/account_rewards_{}_{}_daily.csv'.format(self.mode,self.model_name),index=False)
                 plt.plot(self.asset_memory,'r')
-                plt.savefig('results/account_value_{}_{}_{}.png'.format(self.mode,self.model_name, self.iteration),index=False)
+                plt.savefig('results/account_value_{}_{}_daily.png'.format(self.mode,self.model_name,),index=False)
                 plt.close()
 
             # Add outputs to logger interface

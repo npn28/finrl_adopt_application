@@ -166,9 +166,9 @@ class DRLEnsembleAgent:
         return model
 
     @staticmethod
-    def get_validation_sharpe(iteration,model_name):
+    def get_validation_sharpe(model_name):
         ###Calculate Sharpe ratio based on validation results###
-        df_total_value = pd.read_csv('results/account_value_validation_{}_{}.csv'.format(model_name,iteration))
+        df_total_value = pd.read_csv('results/account_value_validation_{}_daily.csv'.format(model_name))
         sharpe = (4 ** 0.5) * df_total_value['daily_return'].mean() / \
                  df_total_value['daily_return'].std()
         return sharpe
@@ -214,11 +214,12 @@ class DRLEnsembleAgent:
             action, _states = model.predict(test_obs)
             test_obs, rewards, dones, info = test_env.step(action)
 
-    def DRL_prediction(self,model,name,last_state,iter_num,turbulence_threshold,initial):
+    def DRL_prediction(self, model, name,last_state,turbulence_threshold, initial):
         ### make a prediction based on trained model###
 
         ## trading env
-        trade_data = data_split(self.df, start=self.unique_trade_date[iter_num - self.rebalance_window], end=self.unique_trade_date[iter_num])
+        trade_data = data_split(self.df)
+        
         trade_env = DummyVecEnv([lambda: StockTradingEnv(trade_data,
                                                         self.stock_dim,
                                                         self.hmax,
@@ -234,7 +235,7 @@ class DRLEnsembleAgent:
                                                         previous_state=last_state,
                                                         model_name=name,
                                                         mode='trade',
-                                                        iteration=iter_num,
+#                                                         iteration=iter_num,
                                                         print_verbosity=self.print_verbosity)])
 
         trade_obs = trade_env.reset()

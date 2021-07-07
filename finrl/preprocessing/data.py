@@ -13,14 +13,16 @@ def load_dataset(*, file_name: str) -> pd.DataFrame:
     return _data
 
 
-def data_split(df):
+def data_split(df, start, end):
     """
     split the dataset into training or testing using date
     :param data: (df) pandas dataframe, start, end
     :return: (df) pandas dataframe
     """
-    data = df
-    data = data.sort_values(["date", "tic"], ignore_index=True)
+    if (start is not None and end is not None):
+        df = df[(df.date >= start) & (df.date < end)]
+        
+    data = df.sort_values(["date", "tic"], ignore_index=True)
     data.index = data.date.factorize()[0]
     return data
 

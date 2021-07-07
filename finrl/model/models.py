@@ -214,11 +214,12 @@ class DRLEnsembleAgent:
             action, _states = model.predict(test_obs)
             test_obs, rewards, dones, info = test_env.step(action)
 
-    def DRL_prediction(self, model, name,last_state,turbulence_threshold, initial):
+    def DRL_prediction(self, model, name,last_state,turbulence_threshold, initial, trade_data=None):
         ### make a prediction based on trained model###
 
         ## trading env
-        trade_data = data_split(self.df)
+        if trade_data is None:
+            trade_data = data_split(self.df, None, None)
         
         trade_env = DummyVecEnv([lambda: StockTradingEnv(trade_data,
                                                         self.stock_dim,

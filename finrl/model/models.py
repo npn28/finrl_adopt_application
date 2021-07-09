@@ -247,7 +247,7 @@ class DRLEnsembleAgent:
             if i == (len(trade_data.index.unique()) - 2):
                 # print(env_test.render())
                 last_state = trade_env.render()
-
+    
         df_last_state = pd.DataFrame({'last_state': last_state})
         df_last_state.to_csv('results/last_state_{}_{}.csv'.format(name, i), index=False)
         return last_state
